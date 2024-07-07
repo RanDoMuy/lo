@@ -1,0 +1,73 @@
+{% load static %}
+<style>
+    #side-nav{
+        width: 0%;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        transition: 0.3s;
+        position: fixed;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: white;
+        z-index: 2;
+        box-shadow: 0 0 10px rgba(29, 29, 29, 0.292);
+
+    }
+
+    #sidenav-links{
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+        width: 100%;
+        row-gap: 20px;
+    }
+    
+
+    #sidenav-links a{
+        color: black;
+        text-decoration: none;
+        width: 100%;
+        font-size: 16px;
+        text-align: left;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    #sidenav-links a:hover{
+        background: linear-gradient(to bottom, rgb(7, 172, 218), rgb(49, 49, 49)200%);
+        color: white;
+    }
+
+    #closenav{
+        position: absolute;
+        right: 0;
+        font-size: 30px;
+        margin-top: 20px;
+        margin-right: 20px;
+    }
+
+</style>    
+
+<div id="side-nav">
+    <i id="closenav" onclick="CloseSideNav()" class="fa-solid fa-xmark"></i>
+    <div id="sidenav-links">
+        <a href="{% url "dashboard" %}"><i class="fa-solid fa-house-chimney"></i>&nbsp;&nbsp; Dashboard</a>
+        <a href="{% url "deposit" %}"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp; Deposit</a>  
+        <a href="{% url "payment" %}"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp; Make Payment</a>    
+        <a href="{% url "history" %}"><i class="fa-solid fa-file"></i>&nbsp;&nbsp; Transaction Hstory</a>
+        <a href="{% url "cards" %}"><i class="fa-solid fa-credit-card"></i>&nbsp;&nbsp; Cards</a>
+        <a href="{% url "loan" %}"><i class="fa-solid fa-credit-card"></i>&nbsp;&nbsp; Loan</a>
+        <a href="{% url "profile" %}"><i class="fa-solid fa-user"></i>&nbsp;&nbsp; Profile</a>
+        <a href="{% url "settings" %}"><i class="fa-solid fa-user"></i>&nbsp;&nbsp; Settings</a>
+        <a href="{% url "logout" %}"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp; Signout</a>        
+    </div>
+
+</div>
+
+<script>
+    function CloseSideNav(){
+        document.getElementById("side-nav").style.width= '0%'
+    }
+</script>

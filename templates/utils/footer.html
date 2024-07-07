@@ -1,0 +1,79 @@
+{% load static %}
+<style>
+    #footer{
+        background-color: rgb(42, 42, 42);
+        padding-top: 50px;
+        padding-bottom: 20px;
+        padding-left: 100px;
+        padding-right: 100px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px;
+        color: white;
+    }
+    
+    #ro1{
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-color: white;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-width: 1px;
+    }
+    
+    #ro1 a{
+        color: white;
+        text-decoration: none;
+    }
+    
+    #footer-p{
+        line-height: 2;
+        color: white;
+        overflow: hidden;
+    }
+
+
+    @media screen and (max-width: 1000px) {
+        #footer{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        #ro1{
+            width: 100%;
+        }
+    }
+</style>
+<div id="footer">
+    <div class="section-con">
+        <img src="{% static 'images/citiredesign.svg' %}"/>
+
+        <div class="section">
+            <i class="fa-brands fa-facebook"></i>&nbsp;&nbsp;
+            <i class="fa-brands fa-twitter"></i>&nbsp;&nbsp;
+            <i class="fa-brands fa-youtube"></i>&nbsp;&nbsp;
+        </div>
+    </div>
+    <div id="ro1" class="section-con-head">
+
+        <a href="#" class="small-text">Terms</a>
+        <a href="#" class="small-text">Privacy</a>
+        <a href="#" class="small-text">Notice</a>
+        <a href="#" class="small-text">Accessibility</a>
+    </div>
+    <p id="footer-p" class="small-text">
+        <b>Important Legal Disclosures & Information</b><br><br>
+    
+        BlueTrust provides information about and access to accounts and financial services offered by BlueTrust Bank and its affiliates in the United States and its territories. This should not be construed as an offer, invitation, or solicitation of services to individuals outside of the United States.<br><br>
+    
+        Terms, conditions, and fees for accounts, products, programs, and services are subject to change. Not all accounts, products, and services, as well as pricing described here, are available in all jurisdictions or to all customers. Eligibility for a particular product or service is subject to a final determination by BlueTrust. If you are a citizen, resident, or domiciled outside the United States, your application for and use of our accounts, products, and services may be subject to laws, rules, and regulations in your country, including those regarding taxes and capital controls, which you are responsible for following.<br><br>
+    
+        The products, account packages, promotional offers, and services described on this website may not apply to customers of BlueTrust International Personal Bank in the Citigold® Private Client International, Citigold® International, Citi International Personal, Citi Global Executive Preferred, and Citi Global Executive Account Packages.<br><br>
+    
+        Deposit products and services are offered by BlueTrust Bank, Member FDIC.
+    </p>
+    
+
+    
+
+</div>

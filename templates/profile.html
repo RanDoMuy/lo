@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/citiredesign.svg' %}" type="image/x-icon">
+    <title>Dashboard</title>
+</head>
+<body>
+    {% include "./utils/side-nav.html" %}
+    <div id="main" >
+        {% include "./utils/header.html" %}
+        <div id="content">
+            <div id="profile" class="con">
+                <div class="profile-con">
+                    <div class="info-con">
+                        <label class="label">Current Account Balance</label>
+                        <label class="info-box">${{ user.account_balance }}</label>
+                    </div>
+    
+                    <div class="info-con">
+                        <label class="label">Total Deposit</label>
+                        <label class="info-box">${{ user.total_deposit  }}</label>
+                    </div>
+    
+                    <div class="info-con">
+                        <label class="label">Total Payment</label>
+                        <label class="info-box">${{ user.total_payment }}</label>
+                    </div>
+                </div>
+                <div class="profile-con">
+                    <div class="info-con">
+                        <label class="label">Number Of cards</label>
+                        <label class="info-box">0</label>
+                    </div>
+    
+                    <div class="info-con">
+                        <label class="label">Loan</label>
+                        <label class="info-box">${{ user.loan_balance }}</label>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="con" id="dd">
+                
+                <div class="info-con">
+                    <label class="label">First Name</label>
+                    <label class="info-box">{{ user.first_name }}</label>
+                </div>
+
+                <div class="info-con">
+                    <label class="label">Middle Name</label>
+                    <label class="info-box">{{ user.middle_name }}</label>
+                </div>
+
+                <div class="info-con">
+                    <label class="label">First Name</label>
+                    <label class="info-box">{{ user.last_name }}</label>
+                </div>
+
+                <div class="info-con">
+                    <label class="label">Email Address</label>
+                    <label class="info-box">{{ user.email }}</label>
+                </div>
+
+                <div class="info-con">
+                    <label class="label">Phone</label>
+                    <label class="info-box">{{ user.number }}</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
