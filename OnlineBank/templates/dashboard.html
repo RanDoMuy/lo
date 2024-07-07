@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/citiredesign.svg' %}" type="image/x-icon">
+    <title>Dashboard</title>
+</head>
+<body>
+    {% include "./utils/side-nav.html" %}
+    <div id="main" >
+        {% include "./utils/header.html" %}
+        <div id="content">
+            <div id="acct">
+                <h3>Account Details</h3>
+                <div id="acct-con">
+                    <div id="acct-head" class="row">
+                        <img style="width: 100px;" src="{% static 'images/card2.jpg' %}"/>
+                        <select>
+                            <option>-- NONE --</option>
+                        </select>
+                    </div>
+                    <div id="acct-info">
+                        <div id="acct-info-con" class="acct-info-con">
+                            <text>Current Balance &nbsp;<i class="fa-regular fa-circle-question"></i></text>
+                            <b style="font-size: 30px;">${{ user.account_balance }}</b>
+                            <!--<text>Next Statement closes <b>July 5th</b></text>-->
+                            <text>Account Number: <b>{{ user.account_number }}</b></text>
+                        </div>
+                        <div id="acct-info-con2" class="acct-info-con">
+                            <div class="row">
+                                <text>Loan Balance &nbsp;<i class="fa-regular fa-circle-question"></i><br><b>Due --</b></text>
+                                <text>${{ user.loan_balance }}</text>
+                            </div>
+                            <div class="row">
+                                <text><b>Account Type</b> &nbsp;<i class="fa-regular fa-circle-question"></i><br><!--<b>Due July, 14, 2016</b>--></text>
+                                <text>{{ user.account_type }}</text>
+                            </div>
+
+                            <div class="row">
+                                <a href="{% url 'payment' %}" style="background: linear-gradient(to bottom, rgb(7, 172, 218), rgb(49, 49, 49)200%); color: white;">Make Payment</a>
+                                <a href="{% url 'history' %}">History</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border-top-style: solid; border-width: 1px; padding: 15px; box-sizing: border-box; border-color: rgb(195, 195, 195);">
+                        <b><a href="{% url 'profile' %}"><i class="fa-solid fa-circle-plus"></i> &nbsp;View More Account Details</a></b>
+                    </div>
+                </div>
+            </div>
+            <div id="ad" style="background-color: rgb(234, 234, 234);">
+                <div style="border-bottom-style: solid; border-width: 1px; padding: 15px; box-sizing: border-box; border-color: rgb(195, 195, 195); background-color: white;">
+                    <b>CASH REWARDS <i style="color: rgb(214, 23, 23);" class="fa-solid fa-gifts"></i></b>
+                </div>
+                <div style="background-color: rgb(234, 234, 234); padding: 20px; box-sizing: border-box; height: 100%;">
+                    <b>Cash Rewards Balance</b><br><br>
+                    <text>$ {{ user.reward_balance }}</text>
+                </div>
+                <div style="border-top-style: solid; border-width: 1px; padding: 15px; box-sizing: border-box; border-color: rgb(195, 195, 195); background-color: white;">
+                    <!--<b><a href="#"><i class="fa-solid fa-circle-arrow-right"></i> &nbsp;View Your Reward Summary</a></b>-->
+                </div>
+            </div>
+          
+        </div>
+    </div>
+</body>
+</html>

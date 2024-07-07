@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/history.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/citiredesign.svg' %}" type="image/x-icon">
+    <title>Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #content {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            box-sizing: border-box;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            white-space: wrap;
+        }
+
+
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            #table {
+                overflow-x: auto;
+            }
+            table, th, td {
+                display: block;
+                width: 100%;
+            }
+            th, td {
+                box-sizing: border-box;
+            }
+            th {
+                display: none;
+            }
+            td {
+                position: relative;
+                padding-left: 47%;
+                white-space: nowrap;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 100%;
+                padding-left: 0px;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include "./utils/side-nav.html" %}
+    <div id="main">
+        {% include "./utils/header.html" %}
+        <div id="content">
+            <div id="table">
+                <h3>Transaction Activity</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>User</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Amount ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in combined_history %}
+                            <tr>
+                                <td data-label="Date">{{ transaction.timestamp }}</td>
+                                <td data-label="User">{{ transaction.user.email }}</td>
+                                <td data-label="Type">{{ transaction.type }}</td>
+                                <td data-label="Description">
+                                    {% if transaction.type == "Debit" %}
+                                        Beneficiary: {{ transaction.beneficiary }}<br>
+                                        Note: {{ transaction.note }}
+                                    {% elif transaction.type == "Credit" %}
+                                        Sender: {{ transaction.sender }}<br>
+                                        Note: {{ transaction.note }}
+                                    {% elif transaction.type == "Deposit" %}
+                                        Status: {{ transaction.status }}<br>
+                                        Method: {{ transaction.method }}
+                                    {% endif %}
+                                </td>
+                                <td data-label="Amount ($)">{{ transaction.amount }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

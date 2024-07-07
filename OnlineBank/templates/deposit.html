@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/citiredesign.svg' %}" type="image/x-icon">
+    <title>Deposit</title>
+</head>
+<body>
+    {% include "./utils/side-nav.html" %}
+    <div id="main" >
+        {% include "./utils/header.html" %}
+        <div id="content">
+            <div id="ad" style="background-color: rgb(234, 234, 234);">
+                <div style="border-bottom-style: solid; border-width: 1px; padding: 15px; box-sizing: border-box; border-color: rgb(195, 195, 195); background-color: white;">
+                    <b>CASH REWARDS <i style="color: rgb(214, 23, 23);" class="fa-solid fa-gifts"></i></b>
+                </div>
+                <div style="background-color: rgb(234, 234, 234); padding: 20px; box-sizing: border-box; height: 100%;">
+                    <b>Cash Rewards Balance</b><br><br>
+                    <text>$ 400</text>
+                </div>
+                <div style="border-top-style: solid; border-width: 1px; padding: 15px; box-sizing: border-box; border-color: rgb(195, 195, 195); background-color: white;">
+
+                </div>
+            </div>
+            <div class="modal">
+                <div class="steps-indicator">
+                    <div class="step active" id="step1-indicator"></div><hr>
+                    <div class="step" id="step2-indicator"></div>
+                </div>
+                <div id="ctr">
+                    <div class="step-content active" id="step1">
+                        <h2>Set Up Your Payment</h2>
+
+                        <div class="form-con con-form" style="width:100%; border-left-color: rgb(200, 0, 0);">
+                            <label>Enter Amount</label>
+                            <input type="number" class="input" placeholder="Amount"/>
+                        </div>
+                        <div class="form-con con-form" style="width:100%; border-left-color: rgb(200, 0, 0);">
+                            <label>Select Deposit Methos</label>
+                            <select class="input">
+                                <option>Bitcoin</option>
+                            </select>
+
+                        </div>
+                        
+                        <button onclick="nextStep(1)">Confirm Deposit</button>
+                    </div>
+                    <div class="step-content" id="step2">
+                        <h2>Almost Done!</h2>
+
+                        <h3 id="timer">60:00</h3>
+                        <script>
+                            var timeLimit = 3600;
+                            var timer = document.getElementById('timer');
+                            var secondsLeft = timeLimit;
+                    
+                            function countdown() {
+                                var minutes = Math.floor(secondsLeft / 60);
+                                var seconds = secondsLeft % 60;
+                    
+                                // Add leading zeros if necessary
+                                minutes = minutes < 10 ? "0" + minutes : minutes;
+                                seconds = seconds < 10 ? "0" + seconds : seconds;
+                    
+                                // Update the timer
+                                timer.innerText = minutes + ":" + seconds;
+                    
+                                // Decrease the seconds left
+                                secondsLeft--;
+                    
+                                if (secondsLeft < 0) {
+                                    clearInterval(interval);
+                                    timer.innerHTML = "00:00";
+                                    alert("Deposit finished!");
+                                }
+                            }
+                            var interval = setInterval(countdown, 1000);
+                        </script>
+
+
+                        <text>YOUR ORDER HAS BEEN PLACED, TO COMPLETE TRANSACTION, SEND AMOUNT TO THE WALLET ADDRESS BELOW</text>
+
+                        <!--<div style="width: 100px; height: 100px; overflow: hidden;"><img style="height: 1000%; width: 100%; object-fit: cover; object-position: center;" src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl= bc1qeprh46wkvt9q5heqa423zswqrqzqhdpa2vlrhz"></div>-->
+
+
+                        <div id="addr" style="width: 100%; border-style: solid; border-width: 1px; border-radius: 5px; padding: 10px; box-sizing: border-box; text-align: center;"><b style="font-size: 12px;">bc1qeprh46wkvt9q5heqa423zswqrqzqhdpa2vlrhz</b></div>
+                        
+                        <button style="width: 100%;"  id="pro" onclick="copyToClipboard()">Copy</button>
+                        <center><text>Your balance will be updated as soon as we receive confirmations from the crypto network.</text></center>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.querySelector('.bene');
+            const userInfoContainer = document.getElementById('user-info');
+            
+            input.addEventListener('input', function () {
+                const accountNumber = input.value;
+                
+                if (accountNumber.trim() !== "") {
+                    fetch('/get-users-by-account/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token for security
+                        },
+                        body: new URLSearchParams({ 'account_number': accountNumber })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.users) {
+                            displayUsers(data.users);
+                        } else if (data.error) {
+                            console.error(data.error);
+                            userInfoContainer.innerHTML = '<p>Nothing found.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        userInfoContainer.innerHTML = '<p>An error occurred.</p>';
+                    });
+                } else {
+                    userInfoContainer.innerHTML = '';
+                }
+            });
+    
+            function displayUsers(users) {
+                if (users.length === 0) {
+                    userInfoContainer.innerHTML = '<p>Nothing found.</p>';
+                    return;
+                }
+    
+                const userList = users.map(user => `
+                    <div class="user">
+                        <p style="font-size: 14px;"><strong>Baneficiary:</strong> ${user.full_name}</p>
+                    </div>
+                `).join('');
+    
+                userInfoContainer.innerHTML = userList;
+            }
+    
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+    </script>
+    
+
+    
+    <script>
+        function CloseSideNav(){
+            const sideNav = document.getElementById("side-nav");
+            if (window.innerWidth < 1000) {
+                if (sideNav.style.width !== '0%') {
+                    sideNav.style.width = '0%';
+                    sideNav.style.padding = '0px';
+                }
+            }
+        }
+
+        function copyToClipboard() {
+            var textToCopy = document.getElementById("addr").innerText;
+
+            var tempTextArea = document.createElement("textarea");
+            tempTextArea.value = textToCopy;
+            tempTextArea.style.position = "fixed";  // To ensure the textarea is not visible
+            document.body.appendChild(tempTextArea);
+
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                var successful = document.execCommand("copy");
+                var message = successful ? "Address copied to clipboard!" : "Unable to copy text.";
+                alert(message);
+            } catch (error) {
+                console.error("Unable to copy text. Error: ", error);
+            }
+
+            document.body.removeChild(tempTextArea);
+        }
+            
+        function nextStep(currentStep) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep + 1}`).classList.add('active');
+
+            document.getElementById(`step${currentStep}-indicator`).classList.remove('active');
+            document.getElementById(`step${currentStep + 1}-indicator`).classList.add('active');
+        }
+
+        function prevStep(currentStep) {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${currentStep - 1}`).classList.add('active');
+
+            document.getElementById(`step${currentStep}-indicator`).classList.remove('active');
+            document.getElementById(`step${currentStep - 1}-indicator`).classList.add('active');
+        }
+
+        function finish() {
+            alert("Transfer Completed!");
+        }
+
+    </script>
+</body>
+</html>
