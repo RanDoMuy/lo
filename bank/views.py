@@ -52,7 +52,7 @@ def send_credit_receipt_mail(email, user_name, amount, account_balance):
 
 
 def handler404(request, exception):
-    return HttpResponseRedirect('index')
+    return HttpResponseRedirect('/')
 
 
 def Index(request):
