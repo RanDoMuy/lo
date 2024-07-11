@@ -117,7 +117,7 @@ class User(AbstractBaseUser):
 class Debit_History(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount= models.IntegerField("Debit Amount", validators=[MaxValueValidator(9999999999)], null=True, blank=True)
-    timestamp= models.DateTimeField("Date", auto_now_add=True)
+    timestamp= models.DateTimeField("Date", auto_now_add=False)
     note = models.TextField("Debit Note", max_length= 50, null=True, blank=True, )
     beneficiary= models.CharField("Beneficiary", max_length= 50, null=True, blank=True)
 
@@ -128,7 +128,7 @@ class Debit_History(models.Model):
 class Credit_History(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount= models.IntegerField("Credit Amount", validators=[MaxValueValidator(9999999999)], null=True, blank=True,)
-    timestamp= models.DateTimeField("Date", auto_now_add=True)
+    timestamp= models.DateTimeField("Date", auto_now_add=False)
     note = models.TextField("Credit Note", max_length= 50, null=True, blank=True,)
     sender= models.CharField("Sender", max_length= 50, null=True, blank=True,)
 
@@ -139,7 +139,7 @@ class Credit_History(models.Model):
 class Deposit_History(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount= models.IntegerField("Deposit Amount", validators=[MaxValueValidator(9999999999)], null=True, blank=True,)
-    timestamp= models.DateTimeField("Date", auto_now_add=True)
+    timestamp= models.DateTimeField("Date", auto_now_add=False)
     status= models.CharField("Deposit Status", default="PENDING", choices=TRANSACTION_STATUS, max_length= 50, null=True, blank=True,)
     method= models.CharField("Deposit Method", default= "BITCOIN", max_length= 50, null=True, blank=True,)
 
